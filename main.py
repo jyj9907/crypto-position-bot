@@ -1,10 +1,11 @@
+
+import os
 import logging
 import requests
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-# 사용자의 실제 토큰 (공개 저장소에 올리면 안 됨!)
-TOKEN = "7910618894:AAGIVFaGCkJGfWzm5yv1e45XVIbowmGY0kU"
+TOKEN = os.getenv("BOT_TOKEN")
 
 logging.basicConfig(level=logging.INFO)
 
