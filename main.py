@@ -33,14 +33,19 @@ def analyze_position(symbol: str) -> str:
         return f"에러 발생: {e}"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("안녕하세요! 코인 포지션 분석 봇입니다. 예: /position BTCUSDT")
+    await update.message.reply_text("안녕하세요! 코인 포지션 분석 봇입니다. 예: /position BTC")
 
 async def position(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if len(context.args) == 0:
-        await update.message.reply_text("코인 심볼을 입력해주세요. 예: /position BTCUSDT")
+        await update.message.reply_text("코인 심볼을 입력해주세요. 예: /position BTC")
         return
 
-    symbol = context.args[0]
+    input_symbol = context.args[0].upper()
+    if not input_symbol.endswith("USDT"):
+        symbol = input_symbol + "USDT"
+    else:
+        symbol = input_symbol
+
     result = analyze_position(symbol)
     await update.message.reply_text(f"{symbol} 포지션: {result}")
 
