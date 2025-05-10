@@ -14,7 +14,14 @@ def analyze_position(symbol: str) -> str:
     try:
         response = requests.get(url)
         data = response.json()
-        closes = [float(candle[4]) for candle in data]
+
+        if not data or not isinstance(data, list):
+            return "데이터를 불러올 수 없습니다."
+
+        closes = [float(candle[4]) for candle in data if len(candle) > 4]
+
+        if len(closes) < 2:
+            return "캔들 데이터가 부족합니다."
 
         if closes[-1] > closes[0]:
             return "롱"
