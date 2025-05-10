@@ -14,14 +14,15 @@ def analyze_position(symbol: str) -> str:
     try:
         response = requests.get(url)
         data = response.json()
+        logging.info(f"Binance API 응답: {data}")
 
         if not data or not isinstance(data, list):
-            return "데이터를 불러올 수 없습니다."
+            return "데이터를 불러올 수 없습니다. (빈 응답)"
 
         closes = [float(candle[4]) for candle in data if len(candle) > 4]
 
         if len(closes) < 2:
-            return "캔들 데이터가 부족합니다."
+            return f"캔들 데이터가 부족합니다. (수신된 종가 수: {len(closes)})"
 
         if closes[-1] > closes[0]:
             return "롱"
@@ -30,6 +31,7 @@ def analyze_position(symbol: str) -> str:
         else:
             return "횡보"
     except Exception as e:
+        logging.error(f"에러 발생: {e}")
         return f"에러 발생: {e}"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
