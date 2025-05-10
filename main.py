@@ -37,12 +37,8 @@ async def position(update: Update, context: ContextTypes.DEFAULT_TYPE):
     result = analyze_position(symbol)
     await update.message.reply_text(f"{symbol} 포지션: {result}")
 
-async def main():
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("position", position))
-    await app.run_polling()
-
-if __name__ == "__main__":
-    import asyncio
-    asyncio.run(main())
+# 메인 루프 직접 실행
+app = ApplicationBuilder().token(TOKEN).build()
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CommandHandler("position", position))
+app.run_polling()
